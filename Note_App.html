@@ -31,3 +31,16 @@
       <input type="text" id="searchInput" class="search-input" placeholder="Search notes by title or content…" />
       <button class="search-clear" id="searchClear" title="Clear search">✕</button>
  
+      <!-- Add / Edit Note Form -->
+    <section class="form-section glass-card">
+      <h2 class="form-title" id="formTitle">New Note</h2>
+      <input type="text" id="noteTitle" class="form-input" placeholder="Title" maxlength="100" />
+      <textarea id="noteContent" class="form-textarea" placeholder="What's on your mind…" maxlength="500"></textarea>
+      <div class="form-footer">
+        <span class="char-counter" id="charCounter">0 / 500</span>
+        <div class="form-actions">
+          <button class="btn btn-ghost" id="cancelBtn" style="display:none">Cancel</button>
+          <button class="btn btn-primary" id="saveBtn">➕ Add Note</button>
+        </div>
+      </div>
+    </section>
