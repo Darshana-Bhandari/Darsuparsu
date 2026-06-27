@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarsuParsu Note App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Darsu Notes</title>
+  <link rel="stylesheet" href="Note_App.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    
-</body>
-</html>
+ 
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <span class="logo">📝</span>
+      <span class="app-name">Darsu Notes</span>
+    </div>
+    <div class="header-right">
+      <span class="notes-counter" id="notesCounter">0 notes</span>
+      <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light mode">🌙</button>
+    </div>
+  </header>
+ 
