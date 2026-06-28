@@ -459,3 +459,13 @@ window.addEventListener('keydown', event => {
   }
 });
 
+function updateClock() {
+  const now = new Date();
+  liveClock.textContent = now.toLocaleTimeString();
+}
+
+function updateProgress() {
+  if (!progressFill) return;
+  const ratio = noteDescription.value.length / 260;
+  progressFill.style.width = `${Math.min(ratio * 100, 100)}%`;
+}
