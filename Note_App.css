@@ -327,3 +327,58 @@ body {
   gap: 0.4rem;
   margin-top: 0.3rem;
 }
+
+.note-btn {
+  flex: 1;
+  padding: 0.42rem 0.5rem;
+  border-radius: 7px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+.note-btn:hover { background: var(--surface); color: var(--text); }
+ 
+.note-btn.edit:hover { border-color: var(--primary); color: var(--primary); }
+.note-btn.delete:hover { border-color: var(--danger); color: var(--danger); }
+.note-btn.pin:hover { border-color: var(--pin-color); color: var(--pin-color); }
+.note-btn.pin.active { border-color: var(--pin-color); color: var(--pin-color); background: rgba(245,158,11,0.08); }
+ 
+/* ─── Empty State ───────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--text-muted);
+}
+.empty-icon { font-size: 3rem; display: block; margin-bottom: 1rem; }
+.empty-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text); }
+.empty-sub { font-size: 0.88rem; }
+ 
+/* ─── Modal ─────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+ 
+.modal {
+  width: clamp(280px, 90vw, 380px);
+  padding: 2rem;
+  text-align: center;
+  transform: scale(0.93);
+  transition: transform var(--transition);
+}
+.modal-overlay.active .modal { transform: scale(1); }
