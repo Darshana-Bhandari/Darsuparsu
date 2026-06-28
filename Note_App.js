@@ -243,3 +243,16 @@ function applyColorSelection() {
     button.classList.toggle('active', isActive);
   });
 }
+function togglePin(id) {
+  notes = notes.map(note => note.id === id ? { ...note, pinned: !note.pinned } : note);
+  saveNotes();
+  addActivity(notes.find(note => note.id === id).pinned ? 'Note pinned' : 'Note unpinned');
+  renderNotes();
+}
+
+function toggleFavorite(id) {
+  notes = notes.map(note => note.id === id ? { ...note, favorite: !note.favorite } : note);
+  saveNotes();
+  addActivity(notes.find(note => note.id === id).favorite ? 'Note favorited' : 'Note unfavorited');
+  renderNotes();
+}
