@@ -256,3 +256,26 @@ function toggleFavorite(id) {
   addActivity(notes.find(note => note.id === id).favorite ? 'Note favorited' : 'Note unfavorited');
   renderNotes();
 }
+
+function openViewModal(id) {
+  const note = notes.find(note => note.id === id);
+  if (!note) return;
+  viewTitle.textContent = note.title;
+  viewCategory.textContent = note.category.charAt(0).toUpperCase() + note.category.slice(1);
+  viewDate.textContent = formatCreatedAt(note.createdAt);
+  viewPinStatus.textContent = note.pinned ? '📌 Pinned' : note.favorite ? '⭐ Favorite' : '';
+  viewDescription.textContent = note.description;
+  viewModal.hidden = false;
+}
+
+function addOrUpdateNote() {
+  const title = noteTitle.value.trim();
+  const description = noteDescription.value.trim();
+  const category = noteCategory.value;
+
+  if (!title || !description) {
+    showToast('Please add a title and description');
+    return;
+  }
+
+  const now = new Date().toISOString();
