@@ -304,3 +304,26 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.note-content {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+ 
+.note-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+ 
+.note-actions {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
