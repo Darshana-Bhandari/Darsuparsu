@@ -1,6 +1,6 @@
 /* ─── Reset & Base ─────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
 :root {
   --bg:         #0f172a;
   --surface:    #1e293b;
@@ -28,9 +28,9 @@
   --text-muted: #64748b;
   --shadow:     0 4px 24px rgba(0,0,0,0.10);
 }
- 
+
 html { scroll-behavior: smooth; }
- 
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
   background: var(--bg);
@@ -38,7 +38,6 @@ body {
   min-height: 100vh;
   transition: background var(--transition), color var(--transition);
 }
-
 
 /* ─── Glass Card ────────────────────────────────────────── */
 .glass-card {
@@ -49,7 +48,7 @@ body {
   -webkit-backdrop-filter: blur(12px);
   box-shadow: var(--shadow);
 }
- 
+
 /* ─── Header ────────────────────────────────────────────── */
 .header {
   position: sticky;
@@ -65,11 +64,11 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
- 
+
 .header-left { display: flex; align-items: center; gap: 10px; }
- 
+
 .logo { font-size: 1.5rem; }
- 
+
 .app-name {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.2rem;
@@ -79,13 +78,13 @@ body {
 }
 
 .header-right { display: flex; align-items: center; gap: 14px; }
- 
+
 .notes-counter {
   font-size: 0.8rem;
   color: var(--text-muted);
   font-weight: 500;
 }
- 
+
 .theme-toggle {
   background: var(--border);
   border: 1px solid var(--border);
@@ -100,7 +99,6 @@ body {
   transition: background var(--transition), transform var(--transition);
 }
 .theme-toggle:hover { background: var(--primary); transform: rotate(20deg); }
- 
 
 /* ─── Main Layout ───────────────────────────────────────── */
 .main {
@@ -111,21 +109,21 @@ body {
   flex-direction: column;
   gap: 1.6rem;
 }
- 
+
 /* ─── Search ────────────────────────────────────────────── */
 .search-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
- 
+
 .search-icon {
   position: absolute;
   left: 14px;
   font-size: 1rem;
   pointer-events: none;
 }
- 
+
 .search-input {
   width: 100%;
   padding: 0.75rem 2.8rem 0.75rem 2.6rem;
@@ -144,7 +142,7 @@ body {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
- 
+
 .search-clear {
   position: absolute;
   right: 14px;
@@ -159,11 +157,10 @@ body {
 }
 .search-clear.visible { opacity: 1; pointer-events: auto; }
 .search-clear:hover { color: var(--danger); }
- 
 
 /* ─── Form ──────────────────────────────────────────────── */
 .form-section { padding: 1.4rem; }
- 
+
 .form-title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1rem;
@@ -173,7 +170,7 @@ body {
   letter-spacing: 0.06em;
   margin-bottom: 1rem;
 }
- 
+
 .form-input,
 .form-textarea {
   width: 100%;
@@ -195,10 +192,10 @@ body {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
- 
+
 .form-input { margin-bottom: 0.75rem; }
 .form-textarea { height: 110px; margin-bottom: 0.75rem; }
- 
+
 .form-footer {
   display: flex;
   align-items: center;
@@ -206,16 +203,16 @@ body {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
- 
+
 .char-counter {
   font-size: 0.78rem;
   color: var(--text-muted);
 }
 .char-counter.warn { color: #f59e0b; }
 .char-counter.limit { color: var(--danger); }
- 
+
 .form-actions { display: flex; gap: 0.6rem; }
- 
+
 /* ─── Buttons ───────────────────────────────────────────── */
 .btn {
   padding: 0.52rem 1.1rem;
@@ -228,25 +225,24 @@ body {
   transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .btn:active { transform: scale(0.97); }
- 
+
 .btn-primary {
   background: var(--primary);
   color: #fff;
 }
 .btn-primary:hover { background: var(--primary-h); box-shadow: 0 4px 14px rgba(59,130,246,0.4); }
- 
+
 .btn-ghost {
   background: var(--border);
   color: var(--text-muted);
 }
 .btn-ghost:hover { background: var(--surface); color: var(--text); }
- 
+
 .btn-danger {
   background: var(--danger);
   color: #fff;
 }
 .btn-danger:hover { background: #dc2626; }
- 
 
 /* ─── Notes Grid ────────────────────────────────────────── */
 .notes-grid {
@@ -254,7 +250,7 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.1rem;
 }
- 
+
 /* ─── Note Card ─────────────────────────────────────────── */
 .note-card {
   background: var(--card);
@@ -280,12 +276,12 @@ body {
   box-shadow: 0 8px 32px rgba(0,0,0,0.25);
   border-color: rgba(59, 130, 246, 0.3);
 }
- 
+
 .note-card.pinned {
   border-color: rgba(245, 158, 11, 0.4);
   box-shadow: 0 4px 24px rgba(245,158,11,0.12);
 }
- 
+
 .pin-badge {
   position: absolute;
   top: 10px;
@@ -293,7 +289,7 @@ body {
   font-size: 0.8rem;
   opacity: 0.85;
 }
- 
+
 .note-title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1rem;
@@ -315,13 +311,13 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
- 
+
 .note-date {
   font-size: 0.75rem;
   color: var(--text-muted);
   opacity: 0.7;
 }
- 
+
 .note-actions {
   display: flex;
   gap: 0.4rem;
@@ -342,12 +338,12 @@ body {
   transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
 .note-btn:hover { background: var(--surface); color: var(--text); }
- 
+
 .note-btn.edit:hover { border-color: var(--primary); color: var(--primary); }
 .note-btn.delete:hover { border-color: var(--danger); color: var(--danger); }
 .note-btn.pin:hover { border-color: var(--pin-color); color: var(--pin-color); }
 .note-btn.pin.active { border-color: var(--pin-color); color: var(--pin-color); background: rgba(245,158,11,0.08); }
- 
+
 /* ─── Empty State ───────────────────────────────────────── */
 .empty-state {
   text-align: center;
@@ -357,7 +353,7 @@ body {
 .empty-icon { font-size: 3rem; display: block; margin-bottom: 1rem; }
 .empty-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text); }
 .empty-sub { font-size: 0.88rem; }
- 
+
 /* ─── Modal ─────────────────────────────────────────────── */
 .modal-overlay {
   position: fixed;
@@ -373,7 +369,7 @@ body {
   backdrop-filter: blur(4px);
 }
 .modal-overlay.active { opacity: 1; pointer-events: auto; }
- 
+
 .modal {
   width: clamp(280px, 90vw, 380px);
   padding: 2rem;
@@ -382,3 +378,31 @@ body {
   transition: transform var(--transition);
 }
 .modal-overlay.active .modal { transform: scale(1); }
+
+.modal-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
+.modal-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.4rem; }
+.modal-actions { display: flex; gap: 0.7rem; justify-content: center; }
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ─── Responsive ────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .notes-grid { grid-template-columns: 1fr; }
+  .form-section { padding: 1rem; }
+  .header { padding: 0 1rem; }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .notes-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ─── Highlight ─────────────────────────────────────────── */
+mark {
+  background: rgba(59, 130, 246, 0.3);
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 2px;
+}
