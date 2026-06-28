@@ -1,0 +1,19 @@
+/* ─── Reset & Base ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+:root {
+  --bg:         #0f172a;
+  --surface:    #1e293b;
+  --card:       rgba(30, 41, 59, 0.72);
+  --border:     rgba(148, 163, 184, 0.12);
+  --primary:    #3b82f6;
+  --primary-h:  #2563eb;
+  --danger:     #ef4444;
+  --text:       #f8fafc;
+  --text-muted: #94a3b8;
+  --pin-color:  #f59e0b;
+  --radius:     14px;
+  --shadow:     0 4px 24px rgba(0,0,0,0.35);
+  --transition: 0.22s ease;
+}
+
