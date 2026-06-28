@@ -32,3 +32,29 @@ const viewCategory = document.getElementById('viewCategory');
 const viewDate = document.getElementById('viewDate');
 const viewPinStatus = document.getElementById('viewPinStatus');
 const viewDescription = document.getElementById('viewDescription');
+
+const colorMap = {
+  purple: '#8b5cf6',
+  green: '#22c55e',
+  blue: '#2563eb',
+  yellow: '#facc15',
+  red: '#ef4444'
+};
+
+let notes = JSON.parse(localStorage.getItem('notes')) || [];
+let activities = JSON.parse(localStorage.getItem('noteActivities')) || [];
+let activeCategory = 'all';
+let activeColor = 'purple';
+let currentEditId = null;
+let deleteTargetId = null;
+
+function saveNotes() {
+  localStorage.setItem('notes', JSON.stringify(notes));
+}
+
+function saveDraft() {
+  localStorage.setItem('draftTitle', noteTitle.value);
+  localStorage.setItem('draftDescription', noteDescription.value);
+  localStorage.setItem('draftCategory', noteCategory.value);
+  localStorage.setItem('draftColor', activeColor);
+}
