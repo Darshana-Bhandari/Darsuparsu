@@ -5,57 +5,55 @@ const categoryRow = document.getElementById('categoryRow');
 const saveBtn = document.getElementById('saveBtn');
 const noteTitle = document.getElementById('noteTitle');
 const noteDescription = document.getElementById('noteDescription');
+const noteCategory = document.getElementById('noteCategory');
 const charCounter = document.getElementById('charCounter');
 const notesCounter = document.getElementById('notesCounter');
-const clearFormBtn = document.getElementById('clearForm');
+const newNoteBtn = document.getElementById('newNoteBtn');
+const backBtn = document.getElementById('backBtn');
+const floatingAddBtn = document.getElementById('floatingAddBtn');
+const themeToggle = document.getElementById('themeToggle');
+const pageNotes = document.querySelector('.page-notes');
+const pageAdd = document.querySelector('.page-add');
+const colorRow = document.getElementById('colorRow');
+const createdAtText = document.getElementById('createdAtText');
+const addPageTitle = document.getElementById('addPageTitle');
 const toast = document.getElementById('toast');
-const tabButtons = document.querySelectorAll('.bottom-action');
+const confirmModal = document.getElementById('confirmModal');
+const confirmCancel = document.getElementById('confirmCancel');
+const confirmDelete = document.getElementById('confirmDelete');
 
-let notes = JSON.parse(localStorage.getItem('notes')) || [
-  {
-    id: Date.now() - 300000,
-    title: 'Team meeting',
-    description: 'Dolor sit amet, consectetur adipiscing elit.',
-    category: 'personal',
-    favorite: false,
-    pinned: true,
-    createdAt: new Date(Date.now() - 300000).toISOString()
-  },
-  {
-    id: Date.now() - 240000,
-    title: 'Appointment',
-    description: 'Lorem ipsum dolor sit amet, consectetur.',
-    category: 'work',
-    favorite: false,
-    pinned: false,
-    createdAt: new Date(Date.now() - 240000).toISOString()
-  },
-  {
-    id: Date.now() - 180000,
-    title: 'Email team for updates',
-    description: 'Lorem ipsum dolor sit amet, consectetur.',
-    category: 'travel',
-    favorite: true,
-    pinned: false,
-    createdAt: new Date(Date.now() - 180000).toISOString()
-  },
-  {
-    id: Date.now() - 120000,
-    title: 'Prepare investor pitch deck',
-    description: 'Dolor sit amet, consectetur adipiscing elit.',
-    category: 'health',
-    favorite: false,
-    pinned: false,
-    createdAt: new Date(Date.now() - 120000).toISOString()
-  }
-];
+const colorMap = {
+  purple: '#8b5cf6',
+  green: '#22c55e',
+  blue: '#2563eb',
+  yellow: '#facc15',
+  red: '#ef4444'
+};
 
-let activeCategory = 'personal';
-let activeTab = 'notes';
+let notes = JSON.parse(localStorage.getItem('notes')) || [];
+let activeCategory = 'all';
+let activeColor = 'purple';
 let currentEditId = null;
+let deleteTargetId = null;
 
 function saveNotes() {
   localStorage.setItem('notes', JSON.stringify(notes));
+}
+
+function saveDraft() {
+  localStorage.setItem('draftTitle', noteTitle.value);
+  localStorage.setItem('draftDescription', noteDescription.value);
+  localStorage.setItem('draftCategory', noteCategory.value);
+  localStorage.setItem('draftColor', activeColor);
+}
+
+function loadDraft() {
+  noteTitle.value = localStorage.getItem('draftTitle') || '';
+  noteDescription.value = localStorage.getItem('draftDescription') || '';
+  noteCategory.value = localStorage.getItem('draftCategory') || 'personal';
+  activeColor = localStorage.getItem('draftColor') || 'purple';
+  applyColorSelection();
+  charCounter.textContent = `${noteDescription.value.length} / 260`;
 }
 
 function showToast(message) {
@@ -65,158 +63,169 @@ function showToast(message) {
   window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 1800);
 }
 
-function formatDate(isoString) {
-  const date = new Date(isoString);
-  return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+function formatCreatedAt(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const isToday = date.toDateString() === now.toDateString();
+  const label = isToday ? 'Today' : date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  const time = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+  return `${label} • ${time}`;
 }
 
-function clearForm() {
-  currentEditId = null;
-  noteTitle.value = '';
-  noteDescription.value = '';
-  charCounter.textContent = `${noteDescription.value.length} / 260`;
-  document.querySelectorAll('.note-card.active').forEach(card => card.classList.remove('active'));
+function formatHeaderDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) + ` • ${date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}`;
 }
 
-function renderNotes(filterNotes = null) {
-  const searchKeyword = searchInput.value.toLowerCase();
-  let renderList = filterNotes || [...notes];
+function updateNotesCounter() {
+  notesCounter.textContent = `${notes.length}`;
+}
 
-  if (activeTab === 'favorite') {
-    renderList = renderList.filter(note => note.favorite);
-  }
+function getFilteredNotes() {
+  return notes
+    .filter(note => activeCategory === 'all' || note.category === activeCategory)
+    .filter(note => {
+      const query = searchInput.value.toLowerCase();
+      return note.title.toLowerCase().includes(query) || note.description.toLowerCase().includes(query);
+    })
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+}
 
-  if (activeCategory && activeCategory !== 'all') {
-    renderList = renderList.filter(note => note.category === activeCategory);
-  }
-
-  if (searchKeyword) {
-    renderList = renderList.filter(note =>
-      note.title.toLowerCase().includes(searchKeyword) ||
-      note.description.toLowerCase().includes(searchKeyword)
-    );
-  }
-
-  renderList.sort((a, b) => {
-    if (b.pinned !== a.pinned) return b.pinned - a.pinned;
-    return new Date(b.createdAt) - new Date(a.createdAt);
-  });
-
+function renderNotes() {
+  const filtered = getFilteredNotes();
   notesContainer.innerHTML = '';
 
-  if (renderList.length === 0) {
+  if (filtered.length === 0) {
     notesContainer.innerHTML = `
-      <div class="note-card" style="text-align:center; background: rgba(255,255,255,0.92); box-shadow: 0 12px 28px rgba(0,0,0,0.05);">
-        <h2>No Notes Found</h2>
-        <p style="color:#6b7280; margin-top:0.5rem;">Create your first note or change the filter.</p>
+      <div class="note-card">
+        <p class="note-copy" style="text-align:center; margin:0;">📝 No Notes Yet<br><span style="font-size:0.95rem; color:#64748b;">Click + to create your first note</span></p>
       </div>
     `;
-    notesCounter.textContent = notes.length;
+    updateNotesCounter();
     return;
   }
 
-  renderList.forEach(note => {
+  filtered.forEach(note => {
     const card = document.createElement('article');
-    card.className = `note-card${note.pinned ? ' pinned' : ''}${note.id === currentEditId ? ' active' : ''}`;
+    card.className = 'note-card';
+    card.style.borderColor = note.color ? `${note.color}30` : 'rgba(148, 163, 184, 0.18)';
     card.innerHTML = `
       <div class="note-top">
         <h2>${note.title}</h2>
-        <span class="note-date">${formatDate(note.createdAt)}</span>
+        <span class="note-date">${formatCreatedAt(note.createdAt)}</span>
       </div>
       <p class="note-copy">${note.description}</p>
       <div class="note-actions">
-        <button class="note-action-btn" title="Favorite">${note.favorite ? '★' : '☆'}</button>
-        <button class="note-action-btn" title="Pin">📌</button>
-        <button class="note-action-btn" title="Edit">✏️</button>
-        <button class="note-action-btn" title="Delete">🗑️</button>
+        <button class="note-action-btn edit-note" data-id="${note.id}" title="Edit">✏️</button>
+        <button class="note-action-btn delete-note" data-id="${note.id}" title="Delete">🗑️</button>
       </div>
     `;
 
-    const [favBtn, pinBtn, editBtn, deleteBtn] = card.querySelectorAll('.note-action-btn');
-
-    favBtn.addEventListener('click', event => {
-      event.stopPropagation();
-      note.favorite = !note.favorite;
-      saveNotes();
-      renderNotes();
-      showToast(note.favorite ? 'Added to favorites' : 'Removed from favorites');
-    });
-
-    pinBtn.addEventListener('click', event => {
-      event.stopPropagation();
-      note.pinned = !note.pinned;
-      saveNotes();
-      renderNotes();
-      showToast(note.pinned ? 'Pinned note' : 'Unpinned note');
-    });
-
-    editBtn.addEventListener('click', event => {
-      event.stopPropagation();
-      selectNoteForEdit(note.id);
-    });
-
-    deleteBtn.addEventListener('click', event => {
-      event.stopPropagation();
-      deleteNote(note.id);
-    });
-
-    card.addEventListener('click', () => selectNoteForEdit(note.id));
+    const actionRow = card.querySelector('.note-actions');
+    actionRow.style.background = note.color ? `${note.color}1A` : 'transparent';
     notesContainer.appendChild(card);
   });
 
-  notesCounter.textContent = notes.length;
+  updateNotesCounter();
 }
 
-function selectNoteForEdit(id) {
-  const note = notes.find(item => item.id === id);
-  if (!note) return;
-  currentEditId = id;
-  noteTitle.value = note.title;
-  noteDescription.value = note.description;
+function openAddPage(editId = null) {
+  pageNotes.classList.remove('active');
+  pageAdd.classList.add('active');
+  document.body.classList.add('page-add-open');
+  if (editId) {
+    const note = notes.find(item => item.id === editId);
+    if (!note) return;
+    currentEditId = editId;
+    addPageTitle.textContent = 'Edit Note';
+    noteTitle.value = note.title;
+    noteDescription.value = note.description;
+    noteCategory.value = note.category;
+    activeColor = note.color || 'purple';
+    createdAtText.textContent = formatHeaderDate(note.createdAt);
+  } else {
+    currentEditId = null;
+    addPageTitle.textContent = 'Add Note';
+    noteTitle.value = localStorage.getItem('draftTitle') || '';
+    noteDescription.value = localStorage.getItem('draftDescription') || '';
+    noteCategory.value = localStorage.getItem('draftCategory') || 'personal';
+    activeColor = localStorage.getItem('draftColor') || 'purple';
+    const now = new Date().toISOString();
+    createdAtText.textContent = formatHeaderDate(now);
+  }
+  applyColorSelection();
   charCounter.textContent = `${noteDescription.value.length} / 260`;
-  document.querySelectorAll('.note-card.active').forEach(card => card.classList.remove('active'));
-  const card = [...notesContainer.children].find(child => child.innerText.includes(note.title));
-  if (card) card.classList.add('active');
 }
 
-function deleteNote(id) {
-  notes = notes.filter(note => note.id !== id);
-  saveNotes();
-  renderNotes();
-  showToast('Note deleted');
-  if (currentEditId === id) clearForm();
+function closeAddPage() {
+  pageAdd.classList.remove('active');
+  pageNotes.classList.add('active');
+  document.body.classList.remove('page-add-open');
+  currentEditId = null;
+  noteTitle.value = '';
+  noteDescription.value = '';
+  noteCategory.value = 'personal';
+  activeColor = 'purple';
+  applyColorSelection();
+  charCounter.textContent = '0 / 260';
+  localStorage.removeItem('draftTitle');
+  localStorage.removeItem('draftDescription');
+  localStorage.removeItem('draftCategory');
+  localStorage.removeItem('draftColor');
+}
+
+function applyColorSelection() {
+  document.querySelectorAll('.color-swatch').forEach(button => {
+    const isActive = button.dataset.color === activeColor;
+    button.classList.toggle('active', isActive);
+  });
 }
 
 function addOrUpdateNote() {
   const title = noteTitle.value.trim();
   const description = noteDescription.value.trim();
+  const category = noteCategory.value;
+
   if (!title || !description) {
     showToast('Please add a title and description');
     return;
   }
 
-  const category = activeCategory === 'all' ? 'personal' : activeCategory;
+  const now = new Date().toISOString();
 
   if (currentEditId) {
-    notes = notes.map(note => note.id === currentEditId ? { ...note, title, description, category } : note);
+    notes = notes.map(note => note.id === currentEditId ? { ...note, title, description, category, color: colorMap[activeColor] || '#8b5cf6' } : note);
     showToast('Note updated');
   } else {
-    const note = {
+    notes.unshift({
       id: Date.now(),
       title,
       description,
       category,
-      favorite: false,
-      pinned: false,
-      createdAt: new Date().toISOString()
-    };
-    notes.push(note);
+      color: colorMap[activeColor] || '#8b5cf6',
+      createdAt: now
+    });
     showToast('Note saved');
   }
 
   saveNotes();
   renderNotes();
-  clearForm();
+  closeAddPage();
+}
+
+function confirmDeleteNote(id) {
+  deleteTargetId = id;
+  confirmModal.hidden = false;
+}
+
+function deleteNote() {
+  if (deleteTargetId === null) return;
+  notes = notes.filter(note => note.id !== deleteTargetId);
+  saveNotes();
+  renderNotes();
+  confirmModal.hidden = true;
+  deleteTargetId = null;
+  showToast('Note deleted');
 }
 
 function setActiveCategory(category) {
@@ -227,12 +236,16 @@ function setActiveCategory(category) {
   renderNotes();
 }
 
-function setActiveTab(tab) {
-  activeTab = tab;
-  tabButtons.forEach(button => {
-    button.classList.toggle('active', button.dataset.tab === tab);
-  });
-  renderNotes();
+function setupTheme() {
+  const saved = localStorage.getItem('theme') || 'light';
+  document.body.classList.toggle('theme-dark', saved === 'dark');
+  themeToggle.textContent = saved === 'dark' ? '🌙' : '☀';
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('theme-dark');
+  themeToggle.textContent = isDark ? '🌙' : '☀';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
 searchInput.addEventListener('input', () => renderNotes());
@@ -241,34 +254,70 @@ clearSearch.addEventListener('click', () => {
   renderNotes();
 });
 
-categoryRow.addEventListener('click', (event) => {
+categoryRow.addEventListener('click', event => {
   const button = event.target.closest('.category-pill');
   if (!button) return;
   setActiveCategory(button.dataset.category);
 });
 
-saveBtn.addEventListener('click', addOrUpdateNote);
-clearFormBtn.addEventListener('click', () => {
-  clearForm();
-  showToast('Draft cleared');
-});
+newNoteBtn.addEventListener('click', () => openAddPage());
+floatingAddBtn.addEventListener('click', () => openAddPage());
+backBtn.addEventListener('click', closeAddPage);
 
 noteDescription.addEventListener('input', () => {
   charCounter.textContent = `${noteDescription.value.length} / 260`;
-  localStorage.setItem('draft', noteDescription.value);
+  saveDraft();
+});
+noteTitle.addEventListener('input', saveDraft);
+noteCategory.addEventListener('change', saveDraft);
+
+colorRow.addEventListener('click', event => {
+  const button = event.target.closest('.color-swatch');
+  if (!button) return;
+  activeColor = button.dataset.color;
+  applyColorSelection();
+  saveDraft();
 });
 
-noteTitle.addEventListener('input', () => {
-  localStorage.setItem('draftTitle', noteTitle.value);
+saveBtn.addEventListener('click', addOrUpdateNote);
+
+document.addEventListener('click', event => {
+  const editBtn = event.target.closest('.edit-note');
+  const deleteBtn = event.target.closest('.delete-note');
+  if (editBtn) {
+    openAddPage(Number(editBtn.dataset.id));
+  }
+  if (deleteBtn) {
+    confirmDeleteNote(Number(deleteBtn.dataset.id));
+  }
 });
 
-tabButtons.forEach(button => {
-  button.addEventListener('click', () => setActiveTab(button.dataset.tab));
+confirmCancel.addEventListener('click', () => {
+  confirmModal.hidden = true;
+  deleteTargetId = null;
+});
+confirmDelete.addEventListener('click', deleteNote);
+
+themeToggle.addEventListener('click', toggleTheme);
+
+window.addEventListener('keydown', event => {
+  if (event.ctrlKey && event.key.toLowerCase() === 'n') {
+    event.preventDefault();
+    openAddPage();
+  }
+  if (event.ctrlKey && event.key.toLowerCase() === 's') {
+    if (pageAdd.classList.contains('active')) {
+      event.preventDefault();
+      addOrUpdateNote();
+    }
+  }
+  if (event.key === 'Escape' && pageAdd.classList.contains('active')) {
+    closeAddPage();
+  }
 });
 
 window.addEventListener('load', () => {
-  noteDescription.value = localStorage.getItem('draft') || '';
-  noteTitle.value = localStorage.getItem('draftTitle') || '';
-  charCounter.textContent = `${noteDescription.value.length} / 260`;
+  setupTheme();
+  loadDraft();
   renderNotes();
 });

@@ -3,81 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Darsu Notes</title>
+  <title>Darsu Notes App</title>
   <link rel="stylesheet" href="Note_App.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
-<body>
+<body class="theme-light">
   <div class="app-shell">
-    <main class="app-grid">
-      <section class="panel panel-left">
-        <div class="panel-header">
-          <button class="icon-btn menu-btn" aria-label="Menu">&#9776;</button>
+    <header class="app-header">
+      <div class="header-left">
+        <button class="icon-btn menu-btn" aria-label="Menu">&#9776;</button>
+        <div>
+          <p class="eyebrow">All Notes</p>
+          <h1 class="app-title">My Notes</h1>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="notes-summary"><span id="notesCounter">0</span> Notes</div>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">&#9788;</button>
+      </div>
+    </header>
+
+    <main class="page-wrapper">
+      <section class="page page-notes active" aria-label="Notes page">
+        <div class="page-top">
           <div>
-            <p class="eyebrow">All Notes</p>
-            <h1 class="panel-title">My Notes</h1>
+            <p class="eyebrow">Notes Page</p>
+            <h2 class="page-title">My Notes</h2>
           </div>
-          <span id="notesCounter" class="header-pill">0</span>
+          <button id="newNoteBtn" class="button button-primary">+ New Note</button>
         </div>
 
         <div class="search-card">
-          <span class="search-icon">&#128269;</span>
-          <input id="searchInput" class="search-field" type="search" placeholder="Search notes" aria-label="Search notes" />
-          <button id="clearSearch" class="search-clear" aria-label="Clear search">&#10005;</button>
+          <label class="search-label" for="searchInput">Search Notes</label>
+          <div class="search-row">
+            <span class="search-icon">&#128269;</span>
+            <input id="searchInput" class="search-field" type="search" placeholder="Search notes" aria-label="Search notes" />
+            <button id="clearSearch" class="search-clear" aria-label="Clear search">&#10005;</button>
+          </div>
         </div>
 
         <div class="categories-row" id="categoryRow">
-          <button class="category-pill active" type="button" data-category="personal"><span>&#128100;</span> Personal</button>
-          <button class="category-pill" type="button" data-category="work"><span>&#128188;</span> Work</button>
-          <button class="category-pill" type="button" data-category="travel"><span>&#128659;</span> Travel</button>
-          <button class="category-pill" type="button" data-category="health"><span>&#10084;</span> Health</button>
-          <button class="category-pill add-pill" type="button" data-category="all">+</button>
+          <button class="category-pill active" type="button" data-category="personal">Personal</button>
+          <button class="category-pill" type="button" data-category="work">Work</button>
+          <button class="category-pill" type="button" data-category="travel">Travel</button>
+          <button class="category-pill" type="button" data-category="health">Health</button>
+          <button class="category-pill" type="button" data-category="all">All</button>
         </div>
 
         <div id="notesContainer" class="notes-list"></div>
-
-        <nav class="bottom-nav">
-          <button class="bottom-action active" type="button" data-tab="notes"><span>&#128221;</span><small>Notes</small></button>
-          <button class="bottom-action" type="button" data-tab="favorite"><span>&#9734;</span><small>Favorite</small></button>
-          <button class="bottom-action" type="button" data-tab="todos"><span>&#10003;</span><small>To-dos</small></button>
-          <button class="bottom-action" type="button" data-tab="settings"><span>&#9881;</span><small>Settings</small></button>
-        </nav>
       </section>
 
-      <section class="panel panel-right">
-        <div class="panel-header panel-header-right">
-          <button id="clearForm" class="icon-btn back-btn" aria-label="Back">&#8592;</button>
+      <section class="page page-add" aria-label="Add note page">
+        <div class="page-top page-top-small">
+          <button id="backBtn" class="icon-btn back-btn" aria-label="Back">&#8592;</button>
           <div>
-            <h2 class="panel-title">Add Notes</h2>
-            <p class="meta-text" id="formMeta">Today 2:00 pm</p>
+            <p class="eyebrow">Add Note</p>
+            <h2 class="page-title" id="addPageTitle">Create new note</h2>
           </div>
-          <button id="saveBtn" class="icon-btn done-btn" aria-label="Save note">&#10003;</button>
+        </div>
+
+        <div class="note-meta-bar">
+          <div class="note-meta-label">Created</div>
+          <div id="createdAtText" class="note-meta-value">Jun 28, 2026 • 4:35 PM</div>
         </div>
 
         <div class="form-panel">
           <label class="field-label" for="noteTitle">Title</label>
-          <input id="noteTitle" class="field-input" type="text" placeholder="New project briefing" maxlength="80" />
+          <input id="noteTitle" class="field-input" type="text" placeholder="Type title here" maxlength="80" />
+
+          <label class="field-label" for="noteCategory">Category</label>
+          <select id="noteCategory" class="field-input">
+            <option value="personal">Personal</option>
+            <option value="work">Work</option>
+            <option value="travel">Travel</option>
+            <option value="health">Health</option>
+          </select>
+
+          <label class="field-label">Color</label>
+          <div class="color-row" id="colorRow">
+            <button class="color-swatch color-purple active" type="button" data-color="purple" aria-label="Purple"></button>
+            <button class="color-swatch color-green" type="button" data-color="green" aria-label="Green"></button>
+            <button class="color-swatch color-blue" type="button" data-color="blue" aria-label="Blue"></button>
+            <button class="color-swatch color-yellow" type="button" data-color="yellow" aria-label="Yellow"></button>
+            <button class="color-swatch color-red" type="button" data-color="red" aria-label="Red"></button>
+          </div>
 
           <label class="field-label" for="noteDescription">Description</label>
-          <textarea id="noteDescription" class="field-textarea" rows="12" placeholder="Type your note details here..." maxlength="260"></textarea>
-          <div class="field-footer">
-            <span class="char-count" id="charCounter">0 / 260</span>
-          </div>
+          <textarea id="noteDescription" class="field-textarea" rows="10" placeholder="Type your note details here..." maxlength="260"></textarea>
         </div>
 
-        <div class="tools-row">
-          <button class="tool-btn" type="button">&#128214;<span>Checklist</span></button>
-          <button class="tool-btn" type="button">Aa<span>Format</span></button>
-          <button class="tool-btn" type="button">&#127909;<span>Gallery</span></button>
-          <button class="tool-btn" type="button">&#9997;<span>Handwrite</span></button>
+        <div class="form-footer">
+          <span class="char-count" id="charCounter">0 / 260</span>
+          <button id="saveBtn" class="button button-primary">Save Note</button>
         </div>
       </section>
     </main>
+
+    <button id="floatingAddBtn" class="floating-btn" aria-label="Add note">+</button>
   </div>
 
   <div id="toast" class="toast" aria-live="polite"></div>
+
+  <div id="confirmModal" class="confirm-modal" hidden>
+    <div class="confirm-card">
+      <p class="confirm-text">Delete this note?</p>
+      <div class="confirm-actions">
+        <button id="confirmCancel" class="button button-secondary" type="button">Cancel</button>
+        <button id="confirmDelete" class="button button-danger" type="button">Delete</button>
+      </div>
+    </div>
+  </div>
+
   <script src="Note_App.js"></script>
 </body>
 </html>
