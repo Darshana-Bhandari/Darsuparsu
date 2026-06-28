@@ -361,3 +361,19 @@ categoryRow.addEventListener('click', event => {
 newNoteBtn.addEventListener('click', () => openAddPage());
 floatingAddBtn.addEventListener('click', () => openAddPage());
 backBtn.addEventListener('click', closeAddPage);
+
+
+noteDescription.addEventListener('input', () => {
+  charCounter.textContent = `${noteDescription.value.length} / 260`;
+  saveDraft();
+});
+noteTitle.addEventListener('input', saveDraft);
+noteCategory.addEventListener('change', saveDraft);
+
+colorRow.addEventListener('click', event => {
+  const button = event.target.closest('.color-swatch');
+  if (!button) return;
+  activeColor = button.dataset.color;
+  applyColorSelection();
+  saveDraft();
+});
