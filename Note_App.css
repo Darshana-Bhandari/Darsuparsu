@@ -287,8 +287,6 @@ button {
   display: grid;
   gap: 1rem;
   margin-top: 0.25rem;
-  max-height: 600px;
-  overflow-y: auto;
   padding-right: 0.35rem;
 }
 
