@@ -217,3 +217,29 @@ function openAddPage(editId = null) {
   applyColorSelection();
   charCounter.textContent = `${noteDescription.value.length} / 260`;
 }
+
+
+function closeAddPage() {
+  pageAdd.classList.remove('active');
+  pageNotes.classList.add('active');
+  document.body.classList.remove('page-add-open');
+  currentEditId = null;
+  noteTitle.value = '';
+  noteDescription.value = '';
+  noteCategory.value = 'personal';
+  activeColor = 'purple';
+  applyColorSelection();
+  charCounter.textContent = '0 / 260';
+  progressFill.style.width = '0%';
+  localStorage.removeItem('draftTitle');
+  localStorage.removeItem('draftDescription');
+  localStorage.removeItem('draftCategory');
+  localStorage.removeItem('draftColor');
+}
+
+function applyColorSelection() {
+  document.querySelectorAll('.color-swatch').forEach(button => {
+    const isActive = button.dataset.color === activeColor;
+    button.classList.toggle('active', isActive);
+  });
+}
