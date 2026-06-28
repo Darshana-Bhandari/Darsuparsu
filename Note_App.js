@@ -121,3 +121,38 @@ function updateStats() {
   document.getElementById('personalCount').textContent = personal;
   document.getElementById('workCount').textContent = work;
 }
+
+
+function getFilteredNotes() {
+  return notes
+    .filter(note => {
+      if (activeCategory === 'all') return true;
+      if (activeCategory === 'favorites') return note.favorite;
+      return note.category === activeCategory;
+    })
+    .filter(note => {
+      const query = searchInput.value.toLowerCase();
+      return note.title.toLowerCase().includes(query) || note.description.toLowerCase().includes(query);
+    })
+    .sort((a, b) => {
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+}
+
+function renderNotes() {
+  const filtered = getFilteredNotes();
+  notesContainer.innerHTML = '';
+
+  if (filtered.length === 0) {
+    notesContainer.innerHTML = `
+      <div class="empty-state">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='10' y='14' width='72' height='92' rx='16' fill='%23ede9fe'/%3E%3Cpath d='M34 24h44v72H34z' fill='%23c7d2fe'/%3E%3Cpath d='M42 38h32M42 56h32M42 74h32' stroke='%235a26c1' stroke-width='4' stroke-linecap='round'/%3E%3Crect x='84' y='18' width='20' height='84' rx='10' fill='%238b5cf6'/%3E%3C/svg%3E" alt="No notes illustration" />
+        <h3>No notes yet</h3>
+        <p>Create your first note to keep ideas, tasks, and reminders in one place.</p>
+      </div>
+    `;
+    updateNotesCounter();
+    return;
+  }
