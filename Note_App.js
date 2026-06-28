@@ -339,3 +339,25 @@ function setupTheme() {
   document.body.classList.toggle('theme-dark', saved === 'dark');
   themeToggle.textContent = saved === 'dark' ? '🌙' : '☀';
 }
+
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('theme-dark');
+  themeToggle.textContent = isDark ? '🌙' : '☀';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+searchInput.addEventListener('input', () => renderNotes());
+clearSearch.addEventListener('click', () => {
+  searchInput.value = '';
+  renderNotes();
+});
+
+categoryRow.addEventListener('click', event => {
+  const button = event.target.closest('.category-pill');
+  if (!button) return;
+  setActiveCategory(button.dataset.category);
+});
+
+newNoteBtn.addEventListener('click', () => openAddPage());
+floatingAddBtn.addEventListener('click', () => openAddPage());
+backBtn.addEventListener('click', closeAddPage);
