@@ -156,3 +156,37 @@ function renderNotes() {
     updateNotesCounter();
     return;
   }
+
+  filtered.forEach(note => {
+    const card = document.createElement('article');
+    card.className = 'note-card';
+    card.dataset.id = note.id;
+    card.style.borderColor = note.color ? `${note.color}30` : 'rgba(148, 163, 184, 0.18)';
+    card.style.background = note.color ? `${note.color}10` : 'rgba(255, 255, 255, 0.85)';
+    card.innerHTML = `
+      <div class="note-top">
+        <h2>${note.title}</h2>
+        <span class="note-date">${formatCreatedAt(note.createdAt)}</span>
+      </div>
+      <div class="note-meta-row">
+        <span class="category-tag">${note.category.charAt(0).toUpperCase() + note.category.slice(1)}</span>
+        ${note.pinned ? '<span class="category-tag pinned-tag">Pinned</span>' : ''}
+        ${note.favorite ? '<span class="category-tag fav-tag">Favorite</span>' : ''}
+      </div>
+      <p class="note-copy">${note.description}</p>
+      <div class="note-actions">
+        <button class="note-action-btn pin-note" data-id="${note.id}" title="${note.pinned ? 'Unpin' : 'Pin'}">📌</button>
+        <button class="note-action-btn fav-note" data-id="${note.id}" title="${note.favorite ? 'Unfavorite' : 'Favorite'}">⭐</button>
+        <button class="note-action-btn edit-note" data-id="${note.id}" title="Edit">✏️</button>
+        <button class="note-action-btn delete-note" data-id="${note.id}" title="Delete">🗑️</button>
+      </div>
+    `;
+
+    const actionRow = card.querySelector('.note-actions');
+    actionRow.style.background = note.color ? `${note.color}1A` : 'transparent';
+    notesContainer.appendChild(card);
+  });
+
+  updateNotesCounter();
+}
+
