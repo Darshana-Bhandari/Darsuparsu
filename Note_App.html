@@ -9,29 +9,68 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
- 
+
   <!-- Header -->
   <header class="header">
-    <div class="header-left">
-      <span class="logo">📝</span>
-      <span class="app-name">Darsu Notes</span>
-    </div>
-    <div class="header-right">
-      <span class="notes-counter" id="notesCounter">0 notes</span>
-      <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light mode">🌙</button>
-    </div>
+    <button class="menu-btn" id="menuBtn" title="Menu">☰</button>
+    <h1 class="header-title">All Notes</h1>
+    <span class="notes-counter" id="notesCounter"></span>
   </header>
 
-   <!-- Main Content -->
+  <!-- Main Content -->
   <main class="main">
- 
+
     <!-- Search -->
     <div class="search-wrapper">
       <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" class="search-input" placeholder="Search notes by title or content…" />
+      <input type="text" id="searchInput" class="search-input" placeholder="Search notes" />
       <button class="search-clear" id="searchClear" title="Clear search">✕</button>
- 
-      <!-- Add / Edit Note Form -->
+    </div>
+
+    <!-- ✅ NEW: Categories Section -->
+    <section class="categories-section">
+      <h2 class="section-label">Categories</h2>
+      <div class="categories-list">
+        <button class="category-item active" data-category="personal">
+          <span class="category-icon" style="background:#ede9fe">👤</span>
+          <span class="category-name">Personal</span>
+        </button>
+        <button class="category-item" data-category="work">
+          <span class="category-icon" style="background:#d1fae5">💼</span>
+          <span class="category-name">Work</span>
+        </button>
+        <button class="category-item" data-category="travel">
+          <span class="category-icon" style="background:#fef9c3">🚕</span>
+          <span class="category-name">Travel</span>
+        </button>
+        <button class="category-item" data-category="health">
+          <span class="category-icon" style="background:#fee2e2">❤️</span>
+          <span class="category-name">Health</span>
+        </button>
+        <button class="category-item" id="addCategoryBtn">
+          <span class="category-icon category-add">+</span>
+          <span class="category-name"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Notes List (replaces the old grid) -->
+    <section class="notes-section">
+      <div class="notes-list" id="notesGrid"></div>
+      <div class="empty-state" id="emptyState" style="display:none">
+        <span class="empty-icon">😔</span>
+        <p class="empty-title">No notes found</p>
+        <p class="empty-sub">Try a different search or add a new note.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ✅ NEW: Floating Add Button -->
+  <button class="fab" id="fabBtn" title="Add new note">+</button>
+
+  <!-- Add / Edit Note Form (hidden modal/panel, shown on FAB click) -->
+  <div class="form-overlay" id="formOverlay" style="display:none">
     <section class="form-section glass-card">
       <h2 class="form-title" id="formTitle">New Note</h2>
       <input type="text" id="noteTitle" class="form-input" placeholder="Title" maxlength="100" />
@@ -39,22 +78,12 @@
       <div class="form-footer">
         <span class="char-counter" id="charCounter">0 / 500</span>
         <div class="form-actions">
-          <button class="btn btn-ghost" id="cancelBtn" style="display:none">Cancel</button>
+          <button class="btn btn-ghost" id="cancelBtn">Cancel</button>
           <button class="btn btn-primary" id="saveBtn">➕ Add Note</button>
         </div>
       </div>
     </section>
-
-     <!-- Notes Grid -->
-    <section class="notes-section">
-      <div class="notes-grid" id="notesGrid"></div>
-      <div class="empty-state" id="emptyState" style="display:none">
-        <span class="empty-icon">😔</span>
-        <p class="empty-title">No notes found</p>
-        <p class="empty-sub">Try a different search or add a new note above.</p>
-      </div>
-    </section>
-  </main>
+  </div>
 
   <!-- Delete Confirmation Modal -->
   <div class="modal-overlay" id="modalOverlay">
@@ -67,6 +96,26 @@
       </div>
     </div>
   </div>
+
+  <!-- ✅ NEW: Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-tab="notes">
+      <span class="nav-icon">📝</span>
+      <span class="nav-label">Notes</span>
+    </button>
+    <button class="nav-item" data-tab="favourite">
+      <span class="nav-icon">☆</span>
+      <span class="nav-label">Favourite</span>
+    </button>
+    <button class="nav-item" data-tab="todos">
+      <span class="nav-icon">✓</span>
+      <span class="nav-label">To-dos</span>
+    </button>
+    <button class="nav-item" data-tab="settings">
+      <span class="nav-icon">⚙</span>
+      <span class="nav-label">Settings</span>
+    </button>
+  </nav>
 
   <script src="Note_App.js"></script>
 </body>
