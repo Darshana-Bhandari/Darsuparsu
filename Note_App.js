@@ -440,4 +440,22 @@ window.addEventListener('keydown', event => {
     event.preventDefault();
     openAddPage();
   }
+ if (event.ctrlKey && event.key.toLowerCase() === 's') {
+    if (pageAdd.classList.contains('active')) {
+      event.preventDefault();
+      addOrUpdateNote();
+    }
+  }
+  if (event.key === 'Escape') {
+    if (pageAdd.classList.contains('active')) {
+      closeAddPage();
+    }
+    if (!viewModal.hidden) {
+      viewModal.hidden = true;
+    }
+    if (!confirmModal.hidden) {
+      confirmModal.hidden = true;
+    }
+  }
+});
 
