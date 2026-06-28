@@ -394,3 +394,35 @@ exportBtn.addEventListener('click', () => {
 closeViewBtn.addEventListener('click', () => {
   viewModal.hidden = true;
 });
+
+document.addEventListener('click', event => {
+  const editBtn = event.target.closest('.edit-note');
+  const deleteBtn = event.target.closest('.delete-note');
+  const pinBtn = event.target.closest('.pin-note');
+  const favBtn = event.target.closest('.fav-note');
+  const card = event.target.closest('.note-card');
+
+  if (editBtn) {
+    openAddPage(Number(editBtn.dataset.id));
+    return;
+  }
+
+  if (deleteBtn) {
+    confirmDeleteNote(Number(deleteBtn.dataset.id));
+    return;
+  }
+
+  if (pinBtn) {
+    togglePin(Number(pinBtn.dataset.id));
+    return;
+  }
+
+  if (favBtn) {
+    toggleFavorite(Number(favBtn.dataset.id));
+    return;
+  }
+
+  if (card && !event.target.closest('.note-action-btn')) {
+    openViewModal(Number(card.dataset.id));
+  }
+});
