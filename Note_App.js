@@ -310,3 +310,32 @@ function addOrUpdateNote() {
   renderNotes();
   closeAddPage();
 }
+
+function confirmDeleteNote(id) {
+  deleteTargetId = id;
+  confirmModal.hidden = false;
+}
+
+function deleteNote() {
+  if (deleteTargetId === null) return;
+  notes = notes.filter(note => note.id !== deleteTargetId);
+  saveNotes();
+  renderNotes();
+  confirmModal.hidden = true;
+  deleteTargetId = null;
+  showToast('Note deleted');
+}
+
+function setActiveCategory(category) {
+  activeCategory = category;
+  document.querySelectorAll('.category-pill').forEach(button => {
+    button.classList.toggle('active', button.dataset.category === category);
+  });
+  renderNotes();
+}
+
+function setupTheme() {
+  const saved = localStorage.getItem('theme') || 'light';
+  document.body.classList.toggle('theme-dark', saved === 'dark');
+  themeToggle.textContent = saved === 'dark' ? '🌙' : '☀';
+}
