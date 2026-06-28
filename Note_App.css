@@ -270,6 +270,22 @@ button {
   display: grid;
   gap: 1rem;
   margin-top: 0.25rem;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.notes-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.notes-list::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.35);
+  border-radius: 999px;
+}
+
+.notes-list::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .note-card {
