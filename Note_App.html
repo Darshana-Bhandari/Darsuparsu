@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -14,78 +14,46 @@
     <main class="app-grid">
       <section class="panel panel-left">
         <div class="panel-header">
-          <button class="icon-btn menu-btn" aria-label="Menu">☰</button>
+          <button class="icon-btn menu-btn" aria-label="Menu">&#9776;</button>
           <div>
             <p class="eyebrow">All Notes</p>
             <h1 class="panel-title">My Notes</h1>
           </div>
-          <span class="header-pill">6</span>
+          <span id="notesCounter" class="header-pill">0</span>
         </div>
 
         <div class="search-card">
-          <span class="search-icon">🔍</span>
+          <span class="search-icon">&#128269;</span>
           <input id="searchInput" class="search-field" type="search" placeholder="Search notes" aria-label="Search notes" />
-          <button id="clearSearch" class="search-clear" aria-label="Clear search">✕</button>
+          <button id="clearSearch" class="search-clear" aria-label="Clear search">&#10005;</button>
         </div>
 
-        <div class="categories-row">
-          <button class="category-pill active" type="button"><span>👤</span> Personal</button>
-          <button class="category-pill" type="button"><span>💼</span> Work</button>
-          <button class="category-pill" type="button"><span>🚕</span> Travel</button>
-          <button class="category-pill" type="button"><span>❤️</span> Health</button>
-          <button class="category-pill add-pill" type="button">+</button>
+        <div class="categories-row" id="categoryRow">
+          <button class="category-pill active" type="button" data-category="personal"><span>&#128100;</span> Personal</button>
+          <button class="category-pill" type="button" data-category="work"><span>&#128188;</span> Work</button>
+          <button class="category-pill" type="button" data-category="travel"><span>&#128659;</span> Travel</button>
+          <button class="category-pill" type="button" data-category="health"><span>&#10084;</span> Health</button>
+          <button class="category-pill add-pill" type="button" data-category="all">+</button>
         </div>
 
-        <div class="notes-list">
-          <article class="note-card pinned">
-            <div class="note-top">
-              <h2>Team meeting</h2>
-              <span class="note-date">Yesterday</span>
-            </div>
-            <p class="note-copy">Dolor sit amet, consectetur adipiscing elit.</p>
-          </article>
-
-          <article class="note-card">
-            <div class="note-top">
-              <h2>Appointment</h2>
-              <span class="note-date">24/10</span>
-            </div>
-            <p class="note-copy">Lorem ipsum dolor sit amet, consectetur.</p>
-          </article>
-
-          <article class="note-card">
-            <div class="note-top">
-              <h2>Email team for updates</h2>
-              <span class="note-date">21/10</span>
-            </div>
-            <p class="note-copy">Lorem ipsum dolor sit amet, consectetur.</p>
-          </article>
-
-          <article class="note-card">
-            <div class="note-top">
-              <h2>Prepare investor pitch deck</h2>
-              <span class="note-date">18/10</span>
-            </div>
-            <p class="note-copy">Dolor sit amet, consectetur adipiscing elit.</p>
-          </article>
-        </div>
+        <div id="notesContainer" class="notes-list"></div>
 
         <nav class="bottom-nav">
-          <button class="bottom-action active" type="button"><span>📝</span><small>Notes</small></button>
-          <button class="bottom-action" type="button"><span>☆</span><small>Favorite</small></button>
-          <button class="bottom-action" type="button"><span>✓</span><small>To-dos</small></button>
-          <button class="bottom-action" type="button"><span>⚙</span><small>Settings</small></button>
+          <button class="bottom-action active" type="button" data-tab="notes"><span>&#128221;</span><small>Notes</small></button>
+          <button class="bottom-action" type="button" data-tab="favorite"><span>&#9734;</span><small>Favorite</small></button>
+          <button class="bottom-action" type="button" data-tab="todos"><span>&#10003;</span><small>To-dos</small></button>
+          <button class="bottom-action" type="button" data-tab="settings"><span>&#9881;</span><small>Settings</small></button>
         </nav>
       </section>
 
       <section class="panel panel-right">
         <div class="panel-header panel-header-right">
-          <button class="icon-btn back-btn" aria-label="Back">←</button>
+          <button id="clearForm" class="icon-btn back-btn" aria-label="Back">&#8592;</button>
           <div>
             <h2 class="panel-title">Add Notes</h2>
-            <p class="meta-text">Today 2:00 pm</p>
+            <p class="meta-text" id="formMeta">Today 2:00 pm</p>
           </div>
-          <button class="icon-btn done-btn" aria-label="Save note">✓</button>
+          <button id="saveBtn" class="icon-btn done-btn" aria-label="Save note">&#10003;</button>
         </div>
 
         <div class="form-panel">
@@ -100,14 +68,16 @@
         </div>
 
         <div class="tools-row">
-          <button class="tool-btn" type="button">🗒<span>Checklist</span></button>
+          <button class="tool-btn" type="button">&#128214;<span>Checklist</span></button>
           <button class="tool-btn" type="button">Aa<span>Format</span></button>
-          <button class="tool-btn" type="button">🖼<span>Gallery</span></button>
-          <button class="tool-btn" type="button">✍<span>Handwrite</span></button>
+          <button class="tool-btn" type="button">&#127909;<span>Gallery</span></button>
+          <button class="tool-btn" type="button">&#9997;<span>Handwrite</span></button>
         </div>
       </section>
     </main>
   </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
   <script src="Note_App.js"></script>
 </body>
 </html>
