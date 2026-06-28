@@ -89,3 +89,35 @@ function updateNotesCounter() {
   updateStats();
 }
 
+function saveActivities() {
+  localStorage.setItem('noteActivities', JSON.stringify(activities));
+}
+
+function addActivity(message) {
+  const timestamp = new Date().toLocaleString();
+  activities.unshift(`${timestamp} — ${message}`);
+  if (activities.length > 6) activities.length = 6;
+  saveActivities();
+  updateActivityList();
+}
+
+function updateActivityList() {
+  if (!activities.length) {
+    recentActivityList.innerHTML = '<li class="activity-empty">No activity yet. Create your first note.</li>';
+    return;
+  }
+
+  recentActivityList.innerHTML = activities.map(item => `<li>${item}</li>`).join('');
+}
+
+function updateStats() {
+  const total = notes.length;
+  const pinned = notes.filter(note => note.pinned).length;
+  const personal = notes.filter(note => note.category === 'personal').length;
+  const work = notes.filter(note => note.category === 'work').length;
+
+  document.getElementById('totalNotes').textContent = total;
+  document.getElementById('pinnedCount').textContent = pinned;
+  document.getElementById('personalCount').textContent = personal;
+  document.getElementById('workCount').textContent = work;
+}
