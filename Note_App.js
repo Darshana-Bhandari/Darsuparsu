@@ -469,3 +469,11 @@ function updateProgress() {
   const ratio = noteDescription.value.length / 260;
   progressFill.style.width = `${Math.min(ratio * 100, 100)}%`;
 }
+window.addEventListener('load', () => {
+  setupTheme();
+  loadDraft();
+  updateActivityList();
+  renderNotes();
+  updateClock();
+  setInterval(updateClock, 1000);
+});
