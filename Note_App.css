@@ -17,7 +17,7 @@ body {
   color: #1e293b;
   background: radial-gradient(circle at top left, #f8efff 0%, transparent 35%),
               radial-gradient(circle at bottom right, #eef8ff 0%, transparent 30%),
-              linear-gradient(135deg, #b4d9ff, #eff6ff);
+              linear-gradient(135deg, #95c7f8, #eff6ff);
 }
 
 button,
