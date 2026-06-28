@@ -279,3 +279,34 @@ function addOrUpdateNote() {
   }
 
   const now = new Date().toISOString();
+
+
+  if (currentEditId) {
+    notes = notes.map(note => note.id === currentEditId ? {
+      ...note,
+      title,
+      description,
+      category,
+      color: colorMap[activeColor] || '#8b5cf6'
+    } : note);
+    showToast('Note updated');
+    addActivity(`Note updated: ${title}`);
+  } else {
+    notes.unshift({
+      id: Date.now(),
+      title,
+      description,
+      category,
+      color: colorMap[activeColor] || '#8b5cf6',
+      createdAt: now,
+      pinned: false,
+      favorite: false
+    });
+    showToast('Note saved');
+    addActivity(`Note created: ${title}`);
+  }
+
+  saveNotes();
+  renderNotes();
+  closeAddPage();
+}
