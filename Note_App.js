@@ -58,3 +58,34 @@ function saveDraft() {
   localStorage.setItem('draftCategory', noteCategory.value);
   localStorage.setItem('draftColor', activeColor);
 }
+function loadDraft() {
+  noteTitle.value = localStorage.getItem('draftTitle') || '';
+  noteDescription.value = localStorage.getItem('draftDescription') || '';
+  noteCategory.value = localStorage.getItem('draftCategory') || 'personal';
+  activeColor = localStorage.getItem('draftColor') || 'purple';
+  applyColorSelection();
+  charCounter.textContent = `${noteDescription.value.length} / 260`;
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(window.toastTimeout);
+  window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+function formatCreatedAt(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleString();
+}
+
+function formatHeaderDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleString();
+}
+
+function updateNotesCounter() {
+  notesCounter.textContent = `${notes.length}`;
+  updateStats();
+}
+
