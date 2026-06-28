@@ -190,3 +190,30 @@ function renderNotes() {
   updateNotesCounter();
 }
 
+function openAddPage(editId = null) {
+  pageNotes.classList.remove('active');
+  pageAdd.classList.add('active');
+  document.body.classList.add('page-add-open');
+  if (editId) {
+    const note = notes.find(item => item.id === editId);
+    if (!note) return;
+    currentEditId = editId;
+    addPageTitle.textContent = 'Edit Note';
+    noteTitle.value = note.title;
+    noteDescription.value = note.description;
+    noteCategory.value = note.category;
+    activeColor = note.color || 'purple';
+    createdAtText.textContent = formatHeaderDate(note.createdAt);
+  } else {
+    currentEditId = null;
+    addPageTitle.textContent = 'Add Note';
+    noteTitle.value = localStorage.getItem('draftTitle') || '';
+    noteDescription.value = localStorage.getItem('draftDescription') || '';
+    noteCategory.value = localStorage.getItem('draftCategory') || 'personal';
+    activeColor = localStorage.getItem('draftColor') || 'purple';
+    const now = new Date().toISOString();
+    createdAtText.textContent = formatHeaderDate(now);
+  }
+  applyColorSelection();
+  charCounter.textContent = `${noteDescription.value.length} / 260`;
+}
