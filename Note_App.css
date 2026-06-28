@@ -160,3 +160,90 @@ body {
 .search-clear.visible { opacity: 1; pointer-events: auto; }
 .search-clear:hover { color: var(--danger); }
  
+
+/* ─── Form ──────────────────────────────────────────────── */
+.form-section { padding: 1.4rem; }
+ 
+.form-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+ 
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  padding: 0.7rem 1rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  resize: none;
+}
+.form-input::placeholder,
+.form-textarea::placeholder { color: var(--text-muted); }
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+ 
+.form-input { margin-bottom: 0.75rem; }
+.form-textarea { height: 110px; margin-bottom: 0.75rem; }
+ 
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+ 
+.char-counter {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.char-counter.warn { color: #f59e0b; }
+.char-counter.limit { color: var(--danger); }
+ 
+.form-actions { display: flex; gap: 0.6rem; }
+ 
+/* ─── Buttons ───────────────────────────────────────────── */
+.btn {
+  padding: 0.52rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.btn:active { transform: scale(0.97); }
+ 
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--primary-h); box-shadow: 0 4px 14px rgba(59,130,246,0.4); }
+ 
+.btn-ghost {
+  background: var(--border);
+  color: var(--text-muted);
+}
+.btn-ghost:hover { background: var(--surface); color: var(--text); }
+ 
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+.btn-danger:hover { background: #dc2626; }
+ 
