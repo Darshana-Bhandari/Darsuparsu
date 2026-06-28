@@ -16,11 +16,13 @@
         <button class="icon-btn menu-btn" aria-label="Menu">&#9776;</button>
         <div>
           <p class="eyebrow">All Notes</p>
-          <h1 class="app-title">My Notes</h1>
+          <h1 class="app-title">👋 Welcome Back</h1>
         </div>
       </div>
       <div class="header-right">
+        <div id="liveClock" class="live-clock">00:00:00 PM</div>
         <div class="notes-summary"><span id="notesCounter">0</span> Notes</div>
+        <button id="exportBtn" class="button button-secondary" type="button">Export</button>
         <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">&#9788;</button>
       </div>
     </header>
@@ -35,6 +37,30 @@
           <button id="newNoteBtn" class="button button-primary">+ New Note</button>
         </div>
 
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card">
+            <span class="stat-label">Total Notes</span>
+            <strong id="totalNotes">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Pinned</span>
+            <strong id="pinnedCount">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Personal</span>
+            <strong id="personalCount">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Work</span>
+            <strong id="workCount">0</strong>
+          </div>
+        </div>
+
+        <div class="recent-activity">
+          <p class="activity-title">Recent Activity</p>
+          <ul id="recentActivityList" class="activity-list"></ul>
+        </div>
+
         <div class="search-card">
           <label class="search-label" for="searchInput">Search Notes</label>
           <div class="search-row">
@@ -45,11 +71,12 @@
         </div>
 
         <div class="categories-row" id="categoryRow">
-          <button class="category-pill active" type="button" data-category="personal">Personal</button>
+          <button class="category-pill active" type="button" data-category="all">All</button>
+          <button class="category-pill" type="button" data-category="favorites">Favorites</button>
+          <button class="category-pill" type="button" data-category="personal">Personal</button>
           <button class="category-pill" type="button" data-category="work">Work</button>
           <button class="category-pill" type="button" data-category="travel">Travel</button>
           <button class="category-pill" type="button" data-category="health">Health</button>
-          <button class="category-pill" type="button" data-category="all">All</button>
         </div>
 
         <div id="notesContainer" class="notes-list"></div>
@@ -92,6 +119,9 @@
 
           <label class="field-label" for="noteDescription">Description</label>
           <textarea id="noteDescription" class="field-textarea" rows="10" placeholder="Type your note details here..." maxlength="260"></textarea>
+          <div class="progress">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
         </div>
 
         <div class="form-footer">
@@ -113,6 +143,23 @@
         <button id="confirmCancel" class="button button-secondary" type="button">Cancel</button>
         <button id="confirmDelete" class="button button-danger" type="button">Delete</button>
       </div>
+    </div>
+  </div>
+
+  <div id="viewModal" class="view-modal" hidden>
+    <div class="view-card">
+      <div class="view-header">
+        <div>
+          <p class="view-category" id="viewCategory">Category</p>
+          <h3 id="viewTitle">Note title</h3>
+        </div>
+        <button id="closeViewBtn" class="icon-btn close-view" aria-label="Close">✕</button>
+      </div>
+      <div class="view-meta">
+        <span id="viewDate">Jun 28, 2026, 4:35:22 PM</span>
+        <span id="viewPinStatus"></span>
+      </div>
+      <p id="viewDescription" class="view-description"></p>
     </div>
   </div>
 
