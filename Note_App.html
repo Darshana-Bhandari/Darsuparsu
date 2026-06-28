@@ -1,122 +1,113 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Darsu Notes</title>
   <link rel="stylesheet" href="Note_App.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-
-  <!-- Header -->
-  <header class="header">
-    <button class="menu-btn" id="menuBtn" title="Menu">☰</button>
-    <h1 class="header-title">All Notes</h1>
-    <span class="notes-counter" id="notesCounter"></span>
-  </header>
-
-  <!-- Main Content -->
-  <main class="main">
-
-    <!-- Search -->
-    <div class="search-wrapper">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" class="search-input" placeholder="Search notes" />
-      <button class="search-clear" id="searchClear" title="Clear search">✕</button>
-    </div>
-
-    <!-- ✅ NEW: Categories Section -->
-    <section class="categories-section">
-      <h2 class="section-label">Categories</h2>
-      <div class="categories-list">
-        <button class="category-item active" data-category="personal">
-          <span class="category-icon" style="background:#ede9fe">👤</span>
-          <span class="category-name">Personal</span>
-        </button>
-        <button class="category-item" data-category="work">
-          <span class="category-icon" style="background:#d1fae5">💼</span>
-          <span class="category-name">Work</span>
-        </button>
-        <button class="category-item" data-category="travel">
-          <span class="category-icon" style="background:#fef9c3">🚕</span>
-          <span class="category-name">Travel</span>
-        </button>
-        <button class="category-item" data-category="health">
-          <span class="category-icon" style="background:#fee2e2">❤️</span>
-          <span class="category-name">Health</span>
-        </button>
-        <button class="category-item" id="addCategoryBtn">
-          <span class="category-icon category-add">+</span>
-          <span class="category-name"></span>
-        </button>
-      </div>
-    </section>
-
-    <!-- Notes List (replaces the old grid) -->
-    <section class="notes-section">
-      <div class="notes-list" id="notesGrid"></div>
-      <div class="empty-state" id="emptyState" style="display:none">
-        <span class="empty-icon">😔</span>
-        <p class="empty-title">No notes found</p>
-        <p class="empty-sub">Try a different search or add a new note.</p>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ✅ NEW: Floating Add Button -->
-  <button class="fab" id="fabBtn" title="Add new note">+</button>
-
-  <!-- Add / Edit Note Form (hidden modal/panel, shown on FAB click) -->
-  <div class="form-overlay" id="formOverlay" style="display:none">
-    <section class="form-section glass-card">
-      <h2 class="form-title" id="formTitle">New Note</h2>
-      <input type="text" id="noteTitle" class="form-input" placeholder="Title" maxlength="100" />
-      <textarea id="noteContent" class="form-textarea" placeholder="What's on your mind…" maxlength="500"></textarea>
-      <div class="form-footer">
-        <span class="char-counter" id="charCounter">0 / 500</span>
-        <div class="form-actions">
-          <button class="btn btn-ghost" id="cancelBtn">Cancel</button>
-          <button class="btn btn-primary" id="saveBtn">➕ Add Note</button>
+  <div class="app-shell">
+    <main class="app-grid">
+      <section class="panel panel-left">
+        <div class="panel-header">
+          <button class="icon-btn menu-btn" aria-label="Menu">☰</button>
+          <div>
+            <p class="eyebrow">All Notes</p>
+            <h1 class="panel-title">My Notes</h1>
+          </div>
+          <span class="header-pill">6</span>
         </div>
-      </div>
-    </section>
+
+        <div class="search-card">
+          <span class="search-icon">🔍</span>
+          <input id="searchInput" class="search-field" type="search" placeholder="Search notes" aria-label="Search notes" />
+          <button id="clearSearch" class="search-clear" aria-label="Clear search">✕</button>
+        </div>
+
+        <div class="categories-row">
+          <button class="category-pill active" type="button"><span>👤</span> Personal</button>
+          <button class="category-pill" type="button"><span>💼</span> Work</button>
+          <button class="category-pill" type="button"><span>🚕</span> Travel</button>
+          <button class="category-pill" type="button"><span>❤️</span> Health</button>
+          <button class="category-pill add-pill" type="button">+</button>
+        </div>
+
+        <div class="notes-list">
+          <article class="note-card pinned">
+            <div class="note-top">
+              <h2>Team meeting</h2>
+              <span class="note-date">Yesterday</span>
+            </div>
+            <p class="note-copy">Dolor sit amet, consectetur adipiscing elit.</p>
+          </article>
+
+          <article class="note-card">
+            <div class="note-top">
+              <h2>Appointment</h2>
+              <span class="note-date">24/10</span>
+            </div>
+            <p class="note-copy">Lorem ipsum dolor sit amet, consectetur.</p>
+          </article>
+
+          <article class="note-card">
+            <div class="note-top">
+              <h2>Email team for updates</h2>
+              <span class="note-date">21/10</span>
+            </div>
+            <p class="note-copy">Lorem ipsum dolor sit amet, consectetur.</p>
+          </article>
+
+          <article class="note-card">
+            <div class="note-top">
+              <h2>Prepare investor pitch deck</h2>
+              <span class="note-date">18/10</span>
+            </div>
+            <p class="note-copy">Dolor sit amet, consectetur adipiscing elit.</p>
+          </article>
+        </div>
+
+        <nav class="bottom-nav">
+          <button class="bottom-action active" type="button"><span>📝</span><small>Notes</small></button>
+          <button class="bottom-action" type="button"><span>☆</span><small>Favorite</small></button>
+          <button class="bottom-action" type="button"><span>✓</span><small>To-dos</small></button>
+          <button class="bottom-action" type="button"><span>⚙</span><small>Settings</small></button>
+        </nav>
+      </section>
+
+      <section class="panel panel-right">
+        <div class="panel-header panel-header-right">
+          <button class="icon-btn back-btn" aria-label="Back">←</button>
+          <div>
+            <h2 class="panel-title">Add Notes</h2>
+            <p class="meta-text">Today 2:00 pm</p>
+          </div>
+          <button class="icon-btn done-btn" aria-label="Save note">✓</button>
+        </div>
+
+        <div class="form-panel">
+          <label class="field-label" for="noteTitle">Title</label>
+          <input id="noteTitle" class="field-input" type="text" placeholder="New project briefing" maxlength="80" />
+
+          <label class="field-label" for="noteDescription">Description</label>
+          <textarea id="noteDescription" class="field-textarea" rows="12" placeholder="Type your note details here..." maxlength="260"></textarea>
+          <div class="field-footer">
+            <span class="char-count" id="charCounter">0 / 260</span>
+          </div>
+        </div>
+
+        <div class="tools-row">
+          <button class="tool-btn" type="button">🗒<span>Checklist</span></button>
+          <button class="tool-btn" type="button">Aa<span>Format</span></button>
+          <button class="tool-btn" type="button">🖼<span>Gallery</span></button>
+          <button class="tool-btn" type="button">✍<span>Handwrite</span></button>
+        </div>
+      </section>
+    </main>
   </div>
-
-  <!-- Delete Confirmation Modal -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal glass-card">
-      <p class="modal-title">Delete this note?</p>
-      <p class="modal-sub">This action cannot be undone.</p>
-      <div class="modal-actions">
-        <button class="btn btn-ghost" id="cancelDelete">No, keep it</button>
-        <button class="btn btn-danger" id="confirmDelete">Yes, delete</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ✅ NEW: Bottom Navigation -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" data-tab="notes">
-      <span class="nav-icon">📝</span>
-      <span class="nav-label">Notes</span>
-    </button>
-    <button class="nav-item" data-tab="favourite">
-      <span class="nav-icon">☆</span>
-      <span class="nav-label">Favourite</span>
-    </button>
-    <button class="nav-item" data-tab="todos">
-      <span class="nav-icon">✓</span>
-      <span class="nav-label">To-dos</span>
-    </button>
-    <button class="nav-item" data-tab="settings">
-      <span class="nav-icon">⚙</span>
-      <span class="nav-label">Settings</span>
-    </button>
-  </nav>
-
   <script src="Note_App.js"></script>
 </body>
 </html>
