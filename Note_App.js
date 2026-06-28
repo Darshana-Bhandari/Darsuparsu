@@ -377,3 +377,20 @@ colorRow.addEventListener('click', event => {
   applyColorSelection();
   saveDraft();
 });
+
+saveBtn.addEventListener('click', addOrUpdateNote);
+
+exportBtn.addEventListener('click', () => {
+  const data = JSON.stringify(notes, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'notes.json';
+  link.click();
+  URL.revokeObjectURL(url);
+});
+
+closeViewBtn.addEventListener('click', () => {
+  viewModal.hidden = true;
+});
