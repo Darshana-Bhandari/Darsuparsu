@@ -426,3 +426,18 @@ document.addEventListener('click', event => {
     openViewModal(Number(card.dataset.id));
   }
 });
+
+confirmCancel.addEventListener('click', () => {
+  confirmModal.hidden = true;
+  deleteTargetId = null;
+});
+confirmDelete.addEventListener('click', deleteNote);
+
+themeToggle.addEventListener('click', toggleTheme);
+
+window.addEventListener('keydown', event => {
+  if (event.ctrlKey && event.key.toLowerCase() === 'n') {
+    event.preventDefault();
+    openAddPage();
+  }
+
